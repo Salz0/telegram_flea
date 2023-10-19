@@ -1,9 +1,17 @@
 # @Telegram Flea - Your Open-Source Flea-Market Bot for Telegram 🛒
 
 
-Telegram Flea is aopen-source flea-market (Барахолка) bot built for Telegram! 
+Telegram Flea is a open-source flea-market (Барахолка) bot built for Telegram! 
 
 This project is created to serve as a handy tool for university flea-markets, and it's designed to be scalable for use all across in Ukraine
+
+Right now there is only a most basic version of the project! See the photo-example!
+
+![image](https://github.com/Salz0/telegram_flea/assets/76848642/9466e8cd-7b95-4c01-95d1-c46598aa40f7)
+
+
+![image](https://github.com/Salz0/telegram_flea/assets/76848642/7d92f843-9ab7-4c4b-a36d-2120eff5255a)
+
 
 ### Todo's 🌟
 

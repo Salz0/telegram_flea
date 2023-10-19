@@ -17,6 +17,9 @@ $ git checkout -b Branch_Name
 ## Step 4: Work on the Task 👨‍💻👩‍💻
 Make the necessary changes in the code or documentation.
 
+## Step 4.5: Test your code
+Make sure that the changes you've made work locally before creating a Pull Request
+
 ## Step 5: Commit ✅
 Add your changes through Git and create a commit with a descriptive message.
 

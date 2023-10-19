@@ -1,6 +1,8 @@
 """The main module of the application."""
 import aiogram
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
+from aiogram.dispatcher.filters.state import StatesGroup, State
+from aiogram.types import InputFile
 
 from filters.auth import AuthFilter
 from middlewares.message_logging_middleware import MessagesLoggingMiddleware
@@ -39,6 +41,13 @@ __ = i18n.lazy_gettext
 # endregion
 
 
+# Define states
+class SellItem(StatesGroup):
+    waiting_for_name = State()
+    waiting_for_price = State()
+    waiting_for_photo = State()
+
+
 # region Handlers
 @dp.message_handler(aiogram.filters.CommandStart())
 async def start(message: aiogram.types.Message):
@@ -46,8 +55,50 @@ async def start(message: aiogram.types.Message):
     logger.info(f"Received /start command: {message.text=} from {message.from_user.to_python()=}")
     me = await bot.get_me()
     return await message.answer(
-        _("start.welcome", bot_username=me.username, bot_full_name=me.full_name),
+        _("start.welcome", bot_username=me.username, bot_full_name=me.full_name)
     )
+
+
+@dp.message_handler(commands="sell", state="*")
+async def enter_sell(message: aiogram.types.Message):
+    await SellItem.waiting_for_name.set()
+    await message.reply("Please enter the name of the item you want to sell.")
+
+
+@dp.message_handler(state=SellItem.waiting_for_name, content_types=aiogram.types.ContentTypes.TEXT)
+async def enter_name(message: aiogram.types.Message, state: FSMContext):
+    await state.update_data(name=message.text)
+    await SellItem.waiting_for_price.set()
+    await message.reply("Please enter the price.")
+
+
+@dp.message_handler(state=SellItem.waiting_for_price, content_types=aiogram.types.ContentTypes.TEXT)
+async def enter_price(message: aiogram.types.Message, state: FSMContext):
+    await state.update_data(price=message.text)
+    await SellItem.waiting_for_photo.set()
+    await message.reply("Please send a photo of the item.")
+
+
+@dp.message_handler(
+    state=SellItem.waiting_for_photo, content_types=aiogram.types.ContentTypes.PHOTO
+)
+async def enter_photo(message: aiogram.types.Message, state: FSMContext):
+    photo = message.photo[-1]
+    await photo.download("item_photo.jpg")
+
+    # get data and reset state
+    user_data = await state.get_data()
+    await state.finish()
+
+    # prepare data
+    item_name = user_data.get("name")
+    item_price = user_data.get("price")
+    username = message.from_user.username or message.from_user.id
+
+    caption = f"Item for sale:\n- Name: {item_name}\n- Price: {item_price}\n- Seller: @{username}"
+
+    await bot.send_photo(settings.TELEGRAM_CHANNEL_ID, InputFile("item_photo.jpg"), caption=caption)
+    await message.reply("Thank you! Your item is now for sale.")
 
 
 # endregion

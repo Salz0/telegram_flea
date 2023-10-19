@@ -10,6 +10,10 @@ Click the "Fork" button on the main page of the repository to make a copy in you
 ```bash
 $ git checkout -b Branch_Name
 ```
+## Step 3.5:
+* Create a virtual environment with poetry
+* Set up your project by adding your .env variables
+
 ## Step 4: Work on the Task 👨‍💻👩‍💻
 Make the necessary changes in the code or documentation.
 

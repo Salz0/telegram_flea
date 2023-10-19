@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "telegram-flea"
+version = "0.1.0"
+description = "A open-source flea-market bot for Telegram!"
+authors = ["Vladyslav Bilyk <fugue.goose_0n@icloud.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+aiogram = "^2.25.1"
+emoji = "^2.2.0"
+pydantic = {extras = ["dotenv"], version = "^1.10.5"}
+loguru = "^0.6.0"
+tortoise-orm = {extras = ["asyncpg"], version = "^0.19.3"}
+aerich = "^0.7.1"
+redis = "^4.5.5"
+dj-redis-url = "^0.1.4"
+stringcase = "^1.2.0"
+arrow = "^1.2.3"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+isort = "^5.12.0"
+pylint = "^2.17.4"
+pydocstyle = {extras = ["toml"], version = "^6.3.0"}
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+verbose = false
+skip-string-normalization = false
+
+[tool.isort]
+profile = "black"
+line_length = 100
+filter_files = true
+force_alphabetical_sort_within_sections = true
+
+[tool.aerich]
+tortoise_orm = "utils.tortoise_orm.TORTOISE_ORM_CONFIG"
+location = "./migrations"
+src_folder = "./."
+
+[tool.pydocstyle]
+match-dir = "(?!tests|migrations).*"  # exclude the tests and migrations folders
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

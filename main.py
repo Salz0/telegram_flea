@@ -22,7 +22,13 @@ class SellItem(StatesGroup):
 # Handlers
 @dp.message_handler(aiogram.filters.CommandStart())
 async def start(message: aiogram.types.Message):
-    await message.answer("Welcome to the bot!")
+    welcome_message = (
+        f"👋 Welcome to Telegram Flea, the open-source flea-market bot!\n\n"
+        f"This bot is designed to serve as a handy tool for university flea-markets"
+        f"To get started, type /sell to put your item on sale or type /help for more information.\n\n"
+        f"Happy buying and selling! 🎉"
+    )
+    await message.answer(welcome_message)
 
 
 @dp.message_handler(commands="sell", state="*")

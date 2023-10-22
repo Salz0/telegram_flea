@@ -12,6 +12,13 @@ Right now there is only a most basic version of the project! See the photo-examp
 
 ![image](https://github.com/Salz0/telegram_flea/assets/76848642/7d92f843-9ab7-4c4b-a36d-2120eff5255a)
 
+### Supported Languages and Status 🌍
+
+| Language  | Code  | Status  |
+|-----------|-------|---------|
+| English   | en    | ✅       |
+| German    | de    | ✅ |
+| Ukrainian | uk | 👷‍♂️   |
 
 ### Todo's 🌟
 
@@ -38,7 +45,10 @@ git clone https://github.com/your_username/telegram_flea.git
 cd telegram_flea
 ```
 ```bash
-pip install -r requirements.txt
+pip install poetry
+```
+```bash
+poetry install
 ```
 Set up your .env file with your Telegram API credentials.
 

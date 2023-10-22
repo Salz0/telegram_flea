@@ -8,7 +8,11 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from dotenv import load_dotenv
 
+from po_compile import compile_all_languages
+
 load_dotenv()
+compile_all_languages()
+
 bot = aiogram.Bot(os.environ["TELEGRAM_BOT_TOKEN"])
 storage = MemoryStorage()
 dp = aiogram.Dispatcher(bot, storage=storage)
@@ -18,12 +22,13 @@ LOCALES_DIR = BASE_DIR / "locales"
 BOT_LANGUAGE = os.environ.get("BOT_LANGUAGE")
 
 
-i18n = I18nMiddleware('bot', LOCALES_DIR, default="en")
+i18n = I18nMiddleware("bot", LOCALES_DIR, default="en")
 dp.middleware.setup(i18n)
 
 if BOT_LANGUAGE not in i18n.locales:
     print("language is not supported")
     BOT_LANGUAGE = "en"
+
 
 # Define states
 class SellItem(StatesGroup):
@@ -75,12 +80,13 @@ async def enter_photo(message: aiogram.types.Message, state: FSMContext):
     item_price = user_data.get("price")
     username = message.from_user.username or message.from_user.id
 
-    caption = i18n.gettext("bot.item_sale{item_name}-{item_price}-{username}", locale=BOT_LANGUAGE).format(
+    caption = i18n.gettext(
+        "bot.item_sale{item_name}-{item_price}-{username}", locale=BOT_LANGUAGE
+    ).format(
         item_name=item_name,
         item_price=item_price,
         username=username,
     )
-
 
     await bot.send_photo(
         "@" + os.environ["CHANNEL_USERNAME"],
@@ -88,6 +94,7 @@ async def enter_photo(message: aiogram.types.Message, state: FSMContext):
         caption=caption,
     )
     await message.reply(i18n.gettext("bot.thanks_sale", locale=BOT_LANGUAGE))
+
 
 if __name__ == "__main__":
     aiogram.executor.start_polling(dp)

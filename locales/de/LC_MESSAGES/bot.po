@@ -1,0 +1,47 @@
+# German translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-10-22 09:05+0330\n"
+"PO-Revision-Date: 2023-10-22 09:37+0330\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: de\n"
+"Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: main.py:33
+msgid "bot.start_message"
+msgstr "👋 Willkommen bei Telegram Flea, dem quelloffenen Flohmarkt-Bot!\n\n"
+        "Dieser Bot wurde entwickelt, um als praktisches Werkzeug für Universitäts-Flohmärkte zu dienen"
+        "Um loszulegen, gib /sell ein, um deinen Artikel zum Verkauf anzubieten, oder gib /help ein, um weitere Informationen zu erhalten.\n\n"
+        "Viel Spaß beim Kaufen und Verkaufen! 🎉"
+
+#: main.py:39
+msgid "bot.enter_sell_name"
+msgstr "Bitte geben Sie den Namen des Artikels ein, den Sie verkaufen möchten."
+
+#: main.py:47
+msgid "bot.enter_price"
+msgstr "Bitte geben Sie den Preis an."
+
+#: main.py:55
+msgid "bot.send_photo"
+msgstr "Bitte senden Sie ein Foto des Artikels."
+
+#: main.py:76
+msgid "bot.item_sale{item_name}-{item_price}-{username}"
+msgstr "Artikel zu verkaufen:\n- Name: {item_name}\n- Preis: {item_price}\n- Verkäufer: @{username}"
+
+#: main.py:88
+msgid "bot.thanks_sale"
+msgstr "Vielen Dank! Ihr Artikel ist jetzt zum Verkauf."
+

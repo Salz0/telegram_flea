@@ -1,7 +1,9 @@
 import os
+from pathlib import Path
 
 import aiogram
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from dotenv import load_dotenv
@@ -11,6 +13,17 @@ bot = aiogram.Bot(os.environ["TELEGRAM_BOT_TOKEN"])
 storage = MemoryStorage()
 dp = aiogram.Dispatcher(bot, storage=storage)
 
+BASE_DIR = Path(__file__).parent
+LOCALES_DIR = BASE_DIR / "locales"
+BOT_LANGUAGE = os.environ.get("BOT_LANGUAGE")
+
+
+i18n = I18nMiddleware('bot', LOCALES_DIR, default="en")
+dp.middleware.setup(i18n)
+
+if BOT_LANGUAGE not in i18n.locales:
+    print("language is not supported")
+    BOT_LANGUAGE = "en"
 
 # Define states
 class SellItem(StatesGroup):
@@ -22,33 +35,27 @@ class SellItem(StatesGroup):
 # Handlers
 @dp.message_handler(aiogram.filters.CommandStart())
 async def start(message: aiogram.types.Message):
-    welcome_message = (
-        f"👋 Welcome to Telegram Flea, the open-source flea-market bot!\n\n"
-        f"This bot is designed to serve as a handy tool for university flea-markets"
-        f"To get started, type /sell to put your item on sale or type /help for more information.\n\n"
-        f"Happy buying and selling! 🎉"
-    )
-    await message.answer(welcome_message)
+    await message.answer(i18n.gettext("bot.start_message", locale=BOT_LANGUAGE))
 
 
 @dp.message_handler(commands="sell", state="*")
 async def enter_sell(message: aiogram.types.Message):
     await SellItem.waiting_for_name.set()
-    await message.reply("Please enter the name of the item you want to sell.")
+    await message.reply(i18n.gettext("bot.enter_sell_name", locale=BOT_LANGUAGE))
 
 
 @dp.message_handler(state=SellItem.waiting_for_name, content_types=aiogram.types.ContentTypes.TEXT)
 async def enter_name(message: aiogram.types.Message, state: FSMContext):
     await state.update_data(name=message.text)
     await SellItem.waiting_for_price.set()
-    await message.reply("Please enter the price.")
+    await message.reply(i18n.gettext("bot.enter_price", locale=BOT_LANGUAGE))
 
 
 @dp.message_handler(state=SellItem.waiting_for_price, content_types=aiogram.types.ContentTypes.TEXT)
 async def enter_price(message: aiogram.types.Message, state: FSMContext):
     await state.update_data(price=message.text)
     await SellItem.waiting_for_photo.set()
-    await message.reply("Please send a photo of the item.")
+    await message.reply(i18n.gettext("bot.send_photo", locale=BOT_LANGUAGE))
 
 
 @dp.message_handler(
@@ -68,15 +75,19 @@ async def enter_photo(message: aiogram.types.Message, state: FSMContext):
     item_price = user_data.get("price")
     username = message.from_user.username or message.from_user.id
 
-    caption = f"Item for sale:\n- Name: {item_name}\n- Price: {item_price}\n- Seller: @{username}"
+    caption = i18n.gettext("bot.item_sale{item_name}-{item_price}-{username}", locale=BOT_LANGUAGE).format(
+        item_name=item_name,
+        item_price=item_price,
+        username=username,
+    )
+
 
     await bot.send_photo(
         "@" + os.environ["CHANNEL_USERNAME"],
         aiogram.types.InputFile("item_photo.jpg"),
         caption=caption,
     )
-    await message.reply("Thank you! Your item is now for sale.")
-
+    await message.reply(i18n.gettext("bot.thanks_sale", locale=BOT_LANGUAGE))
 
 if __name__ == "__main__":
     aiogram.executor.start_polling(dp)

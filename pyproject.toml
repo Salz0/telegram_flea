@@ -17,6 +17,7 @@ redis = "^4.5.5"
 dj-redis-url = "^0.1.4"
 stringcase = "^1.2.0"
 arrow = "^1.2.3"
+polib = "^1.2.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"

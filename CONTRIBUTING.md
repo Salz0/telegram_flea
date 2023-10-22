@@ -12,7 +12,9 @@ $ git checkout -b Branch_Name
 ```
 ## Step 3.5:
 * Create a virtual environment with poetry
+For more information see: (https://python-poetry.org/docs/basic-usage/)
 * Set up your project by adding your .env variables
+
 
 ## Step 4: Work on the Task 👨‍💻👩‍💻
 Make the necessary changes in the code or documentation.

@@ -18,7 +18,7 @@ Right now there is only a most basic version of the project! See the photo-examp
 |-----------|-------|---------|
 | English   | en    | ✅       |
 | German    | de    | ✅ |
-| Ukrainian | uk | 👷‍♂️   |
+| Ukrainian | uk | ✅   |
 
 ### Todo's 🌟
 

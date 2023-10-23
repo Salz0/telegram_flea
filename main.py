@@ -6,6 +6,8 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
+from aiogram.types.inline_keyboard import InlineKeyboardButton,InlineKeyboardMarkup
+from aiogram.types.callback_query import CallbackQuery
 from dotenv import load_dotenv
 
 from po_compile import compile_all_languages
@@ -88,12 +90,25 @@ async def enter_photo(message: aiogram.types.Message, state: FSMContext):
         username=username,
     )
 
-    await bot.send_photo(
+    data = await bot.send_photo(
         "@" + os.environ["CHANNEL_USERNAME"],
         aiogram.types.InputFile("item_photo.jpg"),
         caption=caption,
     )
-    await message.reply(i18n.gettext("bot.thanks_sale", locale=BOT_LANGUAGE))
+    reply_markup=InlineKeyboardMarkup()
+    reply_markup.add(InlineKeyboardButton(i18n.gettext("bot.cancel_sell", locale=BOT_LANGUAGE), callback_data=f"cancel {data.message_id}"))
+    await message.reply(i18n.gettext("bot.thanks_sale", locale=BOT_LANGUAGE),reply_markup=reply_markup)
+
+@dp.callback_query_handler()
+async def cancel_sell(query: CallbackQuery):
+    data = query.data
+    if not data or len(data.split("cancel ")) != 2:
+        await query.answer(i18n.gettext("bot.error"))
+    message_id = int(data.split("cancel ")[1])
+    await bot.delete_message(
+        "@" + os.environ["CHANNEL_USERNAME"],
+        message_id)
+    await query.answer(i18n.gettext("bot.deleted_successfully"))
 
 
 if __name__ == "__main__":

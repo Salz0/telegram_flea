@@ -24,6 +24,17 @@ Make the necessary changes in the code or documentation.
 ## Step 6: Test your code
 Make sure that the changes you've made work locally before creating a Pull Request
 
+❕ IMPORTANT. Make sure to refactor your code using "Black" formatter before creating a Pull Request
+
+To install Black formatter run:
+```bash
+$ pip install black
+```
+To format your code run:
+```bash
+$ black .
+```
+
 ## Step 7: Commit ✅
 Add your changes through Git and create a commit with a descriptive message.
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-10-22 09:05+0330\n"
+"POT-Creation-Date: 2023-10-23 12:17+0330\n"
 "PO-Revision-Date: 2023-10-22 09:05+0330\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,30 +18,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: main.py:33
+#: main.py:45
 msgid "bot.start_message"
 msgstr "👋 Welcome to Telegram Flea, the open-source flea-market bot!\n\n"
         "This bot is designed to serve as a handy tool for university flea-markets"
         "To get started, type /sell to put your item on sale or type /help for more information.\n\n"
         "Happy buying and selling! 🎉"
 
-#: main.py:39
+#: main.py:51
 msgid "bot.enter_sell_name"
 msgstr "Please enter the name of the item you want to sell."
 
-#: main.py:47
+#: main.py:58
 msgid "bot.enter_price"
 msgstr "Please enter the price."
 
-#: main.py:55
+#: main.py:65
 msgid "bot.send_photo"
 msgstr "Please send a photo of the item."
 
-#: main.py:76
+#: main.py:85
 msgid "bot.item_sale{item_name}-{item_price}-{username}"
 msgstr "Item for sale:\n- Name: {item_name}\n- Price: {item_price}\n- Seller: @{username}"
 
-#: main.py:88
+#: main.py:99
+msgid "bot.cancel_sell"
+msgstr "Cancel Sell"
+
+#: main.py:100
 msgid "bot.thanks_sale"
 msgstr "Thank you! Your item is now for sale."
+
+#: main.py:106
+msgid "bot.error"
+msgstr "Error Occured"
+
+#: main.py:111
+msgid "bot.deleted_successfully"
+msgstr "the selected item successfully deleted"
 

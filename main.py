@@ -6,7 +6,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
-from aiogram.types.inline_keyboard import InlineKeyboardButton,InlineKeyboardMarkup
+from aiogram.types.inline_keyboard import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.types.callback_query import CallbackQuery
 from dotenv import load_dotenv
 
@@ -22,7 +22,6 @@ dp = aiogram.Dispatcher(bot, storage=storage)
 BASE_DIR = Path(__file__).parent
 LOCALES_DIR = BASE_DIR / "locales"
 BOT_LANGUAGE = os.environ.get("BOT_LANGUAGE")
-
 
 i18n = I18nMiddleware("bot", LOCALES_DIR, default="en")
 dp.middleware.setup(i18n)
@@ -95,24 +94,30 @@ async def enter_photo(message: aiogram.types.Message, state: FSMContext):
         aiogram.types.InputFile("item_photo.jpg"),
         caption=caption,
     )
-    reply_markup=InlineKeyboardMarkup()
-    reply_markup.add(InlineKeyboardButton(i18n.gettext("bot.cancel_sell", locale=BOT_LANGUAGE), callback_data=f"cancel {data.message_id}"))
-    await message.reply(i18n.gettext("bot.thanks_sale", locale=BOT_LANGUAGE),reply_markup=reply_markup)
+    reply_markup = InlineKeyboardMarkup()
+    reply_markup.add(
+        InlineKeyboardButton(
+            i18n.gettext("bot.cancel_sell", locale=BOT_LANGUAGE),
+            callback_data=f"cancel {data.message_id}",
+        )
+    )
+    await message.reply(
+        i18n.gettext("bot.thanks_sale", locale=BOT_LANGUAGE), reply_markup=reply_markup
+    )
+
 
 @dp.callback_query_handler()
 async def cancel_sell(query: CallbackQuery):
     data = query.data
     if not data or len(data.split("cancel ")) != 2:
         await query.answer(i18n.gettext("bot.error"))
-        return 
+        return
     message_id = int(data.split("cancel ")[1])
     try:
-        await bot.delete_message(
-            "@" + os.environ["CHANNEL_USERNAME"],
-            message_id)
+        await bot.delete_message("@" + os.environ["CHANNEL_USERNAME"], message_id)
     except aiogram.utils.exceptions.MessageToDeleteNotFound:
         await query.answer(i18n.gettext("bot.error"))
-        return 
+        return
     await query.answer(i18n.gettext("bot.deleted_successfully"))
 
 

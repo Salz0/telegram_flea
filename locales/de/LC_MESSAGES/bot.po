@@ -21,7 +21,7 @@ msgstr ""
 #: main.py:45
 msgid "bot.start_message"
 msgstr "👋 Willkommen bei Telegram Flea, dem quelloffenen Flohmarkt-Bot!\n\n"
-        "Dieser Bot wurde entwickelt, um als praktisches Werkzeug für Universitäts-Flohmärkte zu dienen"
+        "Dieser Bot wurde entwickelt, um als praktisches Werkzeug für Universitäts-Flohmärkte zu dienen\n"
         "Um loszulegen, gib /sell ein, um deinen Artikel zum Verkauf anzubieten, oder gib /help ein, um weitere Informationen zu erhalten.\n\n"
         "Viel Spaß beim Kaufen und Verkaufen! 🎉"
 

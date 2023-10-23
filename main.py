@@ -104,10 +104,15 @@ async def cancel_sell(query: CallbackQuery):
     data = query.data
     if not data or len(data.split("cancel ")) != 2:
         await query.answer(i18n.gettext("bot.error"))
+        return 
     message_id = int(data.split("cancel ")[1])
-    await bot.delete_message(
-        "@" + os.environ["CHANNEL_USERNAME"],
-        message_id)
+    try:
+        await bot.delete_message(
+            "@" + os.environ["CHANNEL_USERNAME"],
+            message_id)
+    except aiogram.utils.exceptions.MessageToDeleteNotFound:
+        await query.answer(i18n.gettext("bot.error"))
+        return 
     await query.answer(i18n.gettext("bot.deleted_successfully"))
 
 

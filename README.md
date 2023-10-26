@@ -14,11 +14,13 @@ Right now there is only a most basic version of the project! See the photo-examp
 
 ### Supported Languages and Status 🌍
 
-| Language  | Code  | Status  |
-|-----------|-------|---------|
-| English   | en    | ✅       |
-| German    | de    | ✅ |
-| Ukrainian | uk | ✅   |
+| Language   | Code | Status  |
+|------------|------|---------|
+| English    | en   | ✅       |
+| German     | de   | ✅ |
+| Ukrainian  | uk   | ✅   |
+| Indonesian | id   | ✅   |
+| Hindi      | hi   | ✅   |
 
 ### Todo's 🌟
 

@@ -1,59 +1,74 @@
-# German translations for PROJECT.
-# Copyright (C) 2023 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-10-23 12:17+0330\n"
-"PO-Revision-Date: 2023-10-22 09:37+0330\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-26 12:44+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: de\n"
-"Language-Team: de <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
 
-#: main.py:45
+#: main.py:48
 msgid "bot.start_message"
-msgstr "👋 Willkommen bei Telegram Flea, dem quelloffenen Flohmarkt-Bot!\n\n"
-        "Dieser Bot wurde entwickelt, um als praktisches Werkzeug für Universitäts-Flohmärkte zu dienen\n"
-        "Um loszulegen, gib /sell ein, um deinen Artikel zum Verkauf anzubieten, oder gib /help ein, um weitere Informationen zu erhalten.\n\n"
-        "Viel Spaß beim Kaufen und Verkaufen! 🎉"
+msgstr "👋 Willkommen bei Telegram Flea, dem Flohmarkt-Bot mit Open-Source-Code!"
 
-#: main.py:51
-msgid "bot.enter_sell_name"
-msgstr "Bitte geben Sie den Namen des Artikels ein, den Sie verkaufen möchten."
+#: main.py:55 keyboards.py:26
+msgid "bot.sell_keyboard_cancel"
+msgstr "Abbrechen ❌"
 
-#: main.py:58
-msgid "bot.enter_price"
-msgstr "Bitte geben Sie den Preis an."
+#: main.py:61 main.py:180
+msgid "bot.sell_keyboard_canceled"
+msgstr "Abgebrochen ✨"
 
-#: main.py:65
-msgid "bot.send_photo"
-msgstr "Bitte senden Sie ein Foto des Artikels."
+#: main.py:67 keyboards.py:21
+msgid "bot.start_keyboard_help"
+msgstr "Hilfe 🆘"
+
+#: main.py:72
+msgid "bot.help_message"
+msgstr "Bei Problemen mit dem Bot, schreibe an @{support_username}."
+
+#: main.py:79 keyboards.py:19
+msgid "bot.start_keyboard_sell"
+msgstr "Anzeige aufgeben 📩"
 
 #: main.py:85
+msgid "bot.enter_sell_description"
+msgstr "Gib eine Artikelbeschreibung ein"
+
+#: main.py:96
+msgid "bot.enter_price"
+msgstr "Gib den Preis oder Tauschbedingungen an"
+
+#: main.py:105
+msgid "bot.send_photo"
+msgstr "Sende ein Foto"
+
+#: main.py:126
+#, python-brace-format
 msgid "bot.item_sale{item_name}-{item_price}-{username}"
-msgstr "Artikel zu verkaufen:\n- Name: {item_name}\n- Preis: {item_price}\n- Verkäufer: @{username}"
+msgstr "Anzeige:\n- {item_name}\n- Preis: {item_price}\n- Kontakt: @{username}"
 
-#: main.py:99
+#: main.py:141
 msgid "bot.cancel_sell"
-msgstr "Verkaufen abbrechen"
+msgstr "Anzeige löschen ❌"
 
-#: main.py:100
+#: main.py:159
 msgid "bot.thanks_sale"
-msgstr "Vielen Dank! Ihr Artikel ist jetzt zum Verkauf."
+msgstr "Danke! Ihr Artikel wurde zum Verkauf angeboten."
 
-#: main.py:106
+#: main.py:167 main.py:173
 msgid "bot.error"
-msgstr "Fehler aufgetreten"
+msgstr "Fehler"
 
-#: main.py:111
+#: main.py:176
 msgid "bot.deleted_successfully"
-msgstr "das ausgewählte Element erfolgreich gelöscht"
-
+msgstr "Anzeige erfolgreich gelöscht ✨"

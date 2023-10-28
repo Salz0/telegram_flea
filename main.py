@@ -64,14 +64,8 @@ async def enter_price(message: aiogram.types.Message, state: FSMContext):
     await message.reply(i18n.gettext("bot.send_photo", locale=BOT_LANGUAGE))
 
 
-@dp.message_handler(
-    state=SellItem.waiting_for_photo, content_types=aiogram.types.ContentTypes.PHOTO
-)
-async def enter_photo(message: aiogram.types.Message, state: FSMContext):
-    photo = message.photo[-1]
-    print("here")
-    await photo.download(destination_file="item_photo.jpg")
-
+async def publish_post(message: aiogram.types.Message, state: FSMContext):
+    """Publishing a post in the channel and sending a notification to the user"""
     # get data and reset state
     user_data = await state.get_data()
     await state.finish()
@@ -104,6 +98,31 @@ async def enter_photo(message: aiogram.types.Message, state: FSMContext):
     await message.reply(
         i18n.gettext("bot.thanks_sale", locale=BOT_LANGUAGE), reply_markup=reply_markup
     )
+
+
+@dp.message_handler(
+    state=SellItem.waiting_for_photo, content_types=aiogram.types.ContentTypes.DOCUMENT
+)
+async def enter_photo_as_document(message: aiogram.types.Message, state: FSMContext):
+    # get photo as document
+    document = message.document
+    await document.download(destination_file="item_photo.jpg")
+
+    # publishing a post
+    await publish_post(message, state)
+
+
+@dp.message_handler(
+    state=SellItem.waiting_for_photo, content_types=aiogram.types.ContentTypes.PHOTO
+)
+async def enter_photo(message: aiogram.types.Message, state: FSMContext):
+    # get photo
+    photo = message.photo[-1]
+    print("here")
+    await photo.download(destination_file="item_photo.jpg")
+
+    # publishing a post
+    await publish_post(message, state)
 
 
 @dp.callback_query_handler()

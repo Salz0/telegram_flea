@@ -1,9 +1,9 @@
 # @Telegram Flea - Your Open-Source Flea-Market Bot for Telegram 🛒
 
 
-Telegram Flea is an open-source bot for Telegram designed to serve as a handy tool for university flea-markets in Ukraine.
-It is scalable and aims to be used across the country!
-Currently, only a basic version of the project is available. Please refer to the attached photo for an example.
+Telegram Flea is an open-source bot for Telegram designed to serve as a handy tool for flea-markets for any Community!.
+It is scalable and can be used by anyone around the globe!
+Currently, a basic version of the project is available, you can easily post your items to a dedicated Telegram-channel. Please refer to the attached photo for an example.
 
 ![image](https://github.com/Salz0/telegram_flea/assets/76848642/9466e8cd-7b95-4c01-95d1-c46598aa40f7)
 
@@ -19,7 +19,6 @@ Currently, only a basic version of the project is available. Please refer to the
 | Ukrainian  | uk   | ✅   |
 | Indonesian | id   | ✅   |
 | Hindi      | hi   | ✅   |
-
 | Spanish    | es   |    |
 | French     | fr   |    |
 | Japanese   | ja   |    |
@@ -43,8 +42,6 @@ Currently, only a basic version of the project is available. Please refer to the
 
 ### Todo's 🌟
 
-* [todo] User-friendly interface 😄
-* [todo] Adding items to the flea market Channel
 * [todo] Moderation system of items applied
 
 ### Extensible and customizable 🛠️

@@ -16,6 +16,8 @@ from dotenv import load_dotenv
 
 from po_compile import compile_all_languages
 
+import logging
+
 load_dotenv()
 compile_all_languages()
 
@@ -43,8 +45,11 @@ BOT_LANGUAGE = os.environ.get("BOT_LANGUAGE")
 i18n = I18nMiddleware("bot", LOCALES_DIR, default="en")
 dp.middleware.setup(i18n)
 
+logger = logging.getLogger("TELEGRAM_FLEA")
+logging.basicConfig(level=logging.INFO)
+
 if BOT_LANGUAGE not in i18n.locales:
-    print("language is not supported")
+    logger.warning("language is not supported")
     BOT_LANGUAGE = "en"
 
 
@@ -70,6 +75,7 @@ async def start(message: types.Message):
 )
 async def cancel(message: types.Message, state: FSMContext):
     await state.finish()
+    logger.info("Canceled post")
     await message.reply(
         i18n.gettext("bot.sell_keyboard_canceled", locale=BOT_LANGUAGE),
         reply_markup=start_keyboard,  # Switch back to the start keyboard
@@ -104,6 +110,7 @@ async def enter_sell(message: aiogram.types.Message):
 )
 async def enter_name(message: aiogram.types.Message, state: FSMContext):
     await state.update_data(name=message.text)
+    logger.info(f"Provided sell name: {message.text}")
     await SellItem.waiting_for_price.set()
     await message.reply(
         i18n.gettext("bot.enter_price", locale=BOT_LANGUAGE), reply_markup=sell_keyboard
@@ -113,6 +120,7 @@ async def enter_name(message: aiogram.types.Message, state: FSMContext):
 @dp.message_handler(state=SellItem.waiting_for_price, content_types=aiogram.types.ContentTypes.TEXT)
 async def enter_price(message: aiogram.types.Message, state: FSMContext):
     await state.update_data(price=message.text)
+    logger.info(f"Provided sell price: {message.text}")
     await SellItem.waiting_for_photo.set()
     await message.reply(
         i18n.gettext("bot.send_photo", locale=BOT_LANGUAGE), reply_markup=sell_keyboard
@@ -125,6 +133,7 @@ async def enter_price(message: aiogram.types.Message, state: FSMContext):
 async def enter_photo(message: aiogram.types.Message, state: FSMContext):
     photo = message.photo[-1]
     await photo.download(destination_file="item_photo.jpg")
+    logger.info(f"Provided compressed file-image: {photo.as_json}")
 
     # get data and reset state
     user_data = await state.get_data()
@@ -143,11 +152,13 @@ async def enter_photo(message: aiogram.types.Message, state: FSMContext):
         username=username,
     )
 
+    logger.info(f"Sent file-image to the channel @{os.environ['CHANNEL_USERNAME']}...")
     data = await bot.send_photo(
         "@" + os.environ["CHANNEL_USERNAME"],
         aiogram.types.InputFile("item_photo.jpg"),
         caption=caption,
     )
+
     reply_markup = InlineKeyboardMarkup()
     reply_markup.add(
         InlineKeyboardButton(
@@ -155,19 +166,22 @@ async def enter_photo(message: aiogram.types.Message, state: FSMContext):
             callback_data=f"cancel {data.message_id}",
         )
     )
-    # Sending photo to the user
+
+    logger.info(f"Sent file-image to the user {message.from_user.id}...")
     data_user = await bot.send_photo(
         chat_id=message.from_user.id,
         photo=types.InputFile("item_photo.jpg"),
         caption=caption,
     )
 
-    # Edit the message to the user to add the reply markup
+    logger.info(f"Edited message for the user {message.from_user.id}")
     await bot.edit_message_reply_markup(
         chat_id=message.from_user.id,
         message_id=data_user.message_id,
         reply_markup=reply_markup,
     )
+
+    logger.info(f"Sent confirmation about successful creation of the post to the user")
     await message.reply(
         i18n.gettext("bot.thanks_sale", locale=BOT_LANGUAGE), reply_markup=start_keyboard
     )

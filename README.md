@@ -70,6 +70,25 @@ poetry install
 ```
 Set up your .env file with your Telegram API credentials.
 
+## Redis installation
+### Overview
+
+Redis is a powerful and lightning-fast open-source database system that is 
+often used to store and manage data in a very simple way. It's often referred
+to as a "key-value store" because it stores data as pairs of keys and their associated values.
+
+Repository contains Docker file. This file is used for creating Docker image with Redis.
+First you need is Docker. How to install docker please find [here](https://www.docker.com/get-started/)
+```docker build -t <enter name> .```
+To create new image with specific name.
+```
+docker run -p 6379:6379 -p 8001:8001 <image name>
+```
+To create new container.
+
+After that you can start your bot.
+
+
 Contribution 🤝
 We love contributions! Please read our Contribution Guidelines to get started.
 

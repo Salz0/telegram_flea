@@ -13,11 +13,12 @@ from aiogram.types.inline_keyboard import InlineKeyboardButton, InlineKeyboardMa
 from aiogram.types.callback_query import CallbackQuery
 from dotenv import load_dotenv
 
-from keyboards import start_keyboard, sell_keyboard
 from po_compile import compile_all_languages
 
 load_dotenv()
 compile_all_languages()
+
+from keyboards import start_keyboard, sell_keyboard
 
 bot = aiogram.Bot(os.environ["TELEGRAM_BOT_TOKEN"])
 storage = MemoryStorage()

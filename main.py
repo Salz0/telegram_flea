@@ -1,5 +1,3 @@
-import asyncio
-import os
 from pathlib import Path
 
 import aiogram
@@ -9,8 +7,8 @@ from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import CommandStart
 from aiogram.dispatcher.filters.state import StatesGroup, State
-from aiogram.types.inline_keyboard import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.types.callback_query import CallbackQuery
+from aiogram.types.inline_keyboard import InlineKeyboardButton, InlineKeyboardMarkup
 from dotenv import load_dotenv
 
 from keyboards import start_keyboard, sell_keyboard

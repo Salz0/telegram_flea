@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  redis:
+    hostname: redis
+    image: redis
+  bot:
+    hostname: bot
+    image: flea
+    environment:
+      - REDIS_URL=redis
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: poetry run python -u main.py
+    volumes:
+      - .:/code
+    depends_on:
+      - redis

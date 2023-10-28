@@ -4,7 +4,6 @@ from pathlib import Path
 
 import aiogram
 from aiogram import types
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from aiogram.dispatcher import FSMContext
@@ -185,6 +184,13 @@ async def cancel_sell(query: CallbackQuery):
     except aiogram.utils.exceptions.MessageToDeleteNotFound:
         await query.answer(i18n.gettext("bot.error"))
         return
+
+    await bot.edit_message_reply_markup(
+        chat_id=query.message.chat.id,
+        message_id=query.message.message_id,
+        reply_markup=None,
+    )
+
     # Answer the query first
     await query.answer(i18n.gettext("bot.deleted_successfully"))
     # Then send the message

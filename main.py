@@ -1,10 +1,14 @@
+import asyncio
 import os
 from pathlib import Path
 
 import aiogram
+from aiogram import types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters import CommandStart
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.types.inline_keyboard import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.types.callback_query import CallbackQuery
@@ -15,8 +19,21 @@ from po_compile import compile_all_languages
 load_dotenv()
 compile_all_languages()
 
+from keyboards import start_keyboard, sell_keyboard
+
 bot = aiogram.Bot(os.environ["TELEGRAM_BOT_TOKEN"])
-storage = MemoryStorage()
+
+# Redis parameters initialisation
+redis_url = os.environ["REDIS_URL"]
+redis_port = int(os.environ["REDIS_PORT"])
+redis_db = int(os.environ["REDIS_DB"])
+redis_pool_size = int(os.environ["REDIS_POOL_SIZE"])
+redis_prefix_key = os.environ["REDIS_PREFIX_KEY"]
+
+storage = RedisStorage2(
+    redis_url, redis_port, db=redis_db, pool_size=redis_pool_size, prefix=redis_prefix_key
+)
+
 dp = aiogram.Dispatcher(bot, storage=storage)
 
 BASE_DIR = Path(__file__).parent
@@ -33,39 +50,82 @@ if BOT_LANGUAGE not in i18n.locales:
 
 # Define states
 class SellItem(StatesGroup):
-    waiting_for_name = State()
+    waiting_for_description = State()
     waiting_for_price = State()
     waiting_for_photo = State()
 
 
-# Handlers
-@dp.message_handler(aiogram.filters.CommandStart())
-async def start(message: aiogram.types.Message):
-    await message.answer(i18n.gettext("bot.start_message", locale=BOT_LANGUAGE))
+@dp.message_handler(CommandStart(), state="*")
+async def start(message: types.Message):
+    await message.answer(
+        i18n.gettext("bot.start_message", locale=BOT_LANGUAGE),
+        reply_markup=start_keyboard,  # Attach the reply keyboard here
+    )
 
 
-@dp.message_handler(commands="sell", state="*")
+@dp.message_handler(
+    lambda message: message.text.lower()
+    == i18n.gettext("bot.sell_keyboard_cancel", locale=BOT_LANGUAGE).lower(),
+    state="*",
+)
+async def cancel(message: types.Message, state: FSMContext):
+    await state.finish()
+    await message.reply(
+        i18n.gettext("bot.sell_keyboard_canceled", locale=BOT_LANGUAGE),
+        reply_markup=start_keyboard,  # Switch back to the start keyboard
+    )
+
+
+@dp.message_handler(
+    lambda message: message.text == i18n.gettext("bot.start_keyboard_help", locale=BOT_LANGUAGE),
+    state="*",
+)
+async def help_command(message: aiogram.types.Message):
+    support_username = os.environ.get("SUPPORT_USERNAME")
+    help_text = i18n.gettext("bot.help_message", locale=BOT_LANGUAGE).format(
+        support_username=support_username
+    )
+    await message.reply(help_text, reply_markup=start_keyboard)
+
+
+@dp.message_handler(
+    lambda message: message.text == i18n.gettext("bot.start_keyboard_sell", locale=BOT_LANGUAGE),
+    state="*",
+)
 async def enter_sell(message: aiogram.types.Message):
-    await SellItem.waiting_for_name.set()
-    await message.reply(i18n.gettext("bot.enter_sell_name", locale=BOT_LANGUAGE))
+    await SellItem.waiting_for_description.set()
+    await message.reply(
+        i18n.gettext("bot.enter_sell_description", locale=BOT_LANGUAGE), reply_markup=sell_keyboard
+    )
 
 
-@dp.message_handler(state=SellItem.waiting_for_name, content_types=aiogram.types.ContentTypes.TEXT)
+@dp.message_handler(
+    state=SellItem.waiting_for_description, content_types=aiogram.types.ContentTypes.TEXT
+)
 async def enter_name(message: aiogram.types.Message, state: FSMContext):
     await state.update_data(name=message.text)
     await SellItem.waiting_for_price.set()
-    await message.reply(i18n.gettext("bot.enter_price", locale=BOT_LANGUAGE))
+    await message.reply(
+        i18n.gettext("bot.enter_price", locale=BOT_LANGUAGE), reply_markup=sell_keyboard
+    )
 
 
 @dp.message_handler(state=SellItem.waiting_for_price, content_types=aiogram.types.ContentTypes.TEXT)
 async def enter_price(message: aiogram.types.Message, state: FSMContext):
     await state.update_data(price=message.text)
     await SellItem.waiting_for_photo.set()
-    await message.reply(i18n.gettext("bot.send_photo", locale=BOT_LANGUAGE))
+    await message.reply(
+        i18n.gettext("bot.send_photo", locale=BOT_LANGUAGE), reply_markup=sell_keyboard
+    )
 
 
-async def publish_post(message: aiogram.types.Message, state: FSMContext):
-    """Publishing a post in the channel and sending a notification to the user"""
+@dp.message_handler(
+    state=SellItem.waiting_for_photo, content_types=aiogram.types.ContentTypes.PHOTO
+)
+async def enter_photo(message: aiogram.types.Message, state: FSMContext):
+    photo = message.photo[-1]
+    await photo.download(destination_file="item_photo.jpg")
+
     # get data and reset state
     user_data = await state.get_data()
     await state.finish()
@@ -95,8 +155,21 @@ async def publish_post(message: aiogram.types.Message, state: FSMContext):
             callback_data=f"cancel {data.message_id}",
         )
     )
+    # Sending photo to the user
+    data_user = await bot.send_photo(
+        chat_id=message.from_user.id,
+        photo=types.InputFile("item_photo.jpg"),
+        caption=caption,
+    )
+
+    # Edit the message to the user to add the reply markup
+    await bot.edit_message_reply_markup(
+        chat_id=message.from_user.id,
+        message_id=data_user.message_id,
+        reply_markup=reply_markup,
+    )
     await message.reply(
-        i18n.gettext("bot.thanks_sale", locale=BOT_LANGUAGE), reply_markup=reply_markup
+        i18n.gettext("bot.thanks_sale", locale=BOT_LANGUAGE), reply_markup=start_keyboard
     )
 
 
@@ -133,12 +206,18 @@ async def cancel_sell(query: CallbackQuery):
         return
     message_id = int(data.split("cancel ")[1])
     try:
-        await bot.delete_message("@" + os.environ["CHANNEL_USERNAME"], message_id)
+        await bot.delete_message(f"@{os.environ['CHANNEL_USERNAME']}", message_id)
     except aiogram.utils.exceptions.MessageToDeleteNotFound:
         await query.answer(i18n.gettext("bot.error"))
         return
+    # Answer the query first
     await query.answer(i18n.gettext("bot.deleted_successfully"))
+    # Then send the message
+    await bot.send_message(
+        chat_id=query.from_user.id,
+        text=i18n.gettext("bot.sell_keyboard_canceled", locale=BOT_LANGUAGE),
+    )
 
 
 if __name__ == "__main__":
-    aiogram.executor.start_polling(dp)
+    aiogram.executor.start_polling(dp, on_startup=print("Bot started"))

@@ -15,17 +15,18 @@ from dotenv import load_dotenv
 
 from keyboards import start_keyboard, sell_keyboard
 from po_compile import compile_all_languages
+from settings import settings
 
 load_dotenv()
 compile_all_languages()
 
-bot = aiogram.Bot(os.environ["TELEGRAM_BOT_TOKEN"])
+bot = aiogram.Bot(settings.TELEGRAM_BOT_TOKEN)
 storage = MemoryStorage()
 dp = aiogram.Dispatcher(bot, storage=storage)
 
 BASE_DIR = Path(__file__).parent
 LOCALES_DIR = BASE_DIR / "locales"
-BOT_LANGUAGE = os.environ.get("BOT_LANGUAGE")
+BOT_LANGUAGE = settings.BOT_LANGUAGE
 
 i18n = I18nMiddleware("bot", LOCALES_DIR, default="en")
 dp.middleware.setup(i18n)
@@ -68,7 +69,7 @@ async def cancel(message: types.Message, state: FSMContext):
     state="*",
 )
 async def help_command(message: aiogram.types.Message):
-    support_username = os.environ.get("SUPPORT_USERNAME")
+    support_username = settings.SUPPORT_USERNAME
     help_text = i18n.gettext("bot.help_message", locale=BOT_LANGUAGE).format(
         support_username=support_username
     )
@@ -131,7 +132,7 @@ async def enter_photo(message: aiogram.types.Message, state: FSMContext):
     )
 
     data = await bot.send_photo(
-        "@" + os.environ["CHANNEL_USERNAME"],
+        "@" + settings.CHANNEL_USERNAME,
         aiogram.types.InputFile("item_photo.jpg"),
         caption=caption,
     )
@@ -168,7 +169,7 @@ async def cancel_sell(query: CallbackQuery):
         return
     message_id = int(data.split("cancel ")[1])
     try:
-        await bot.delete_message(f"@{os.environ['CHANNEL_USERNAME']}", message_id)
+        await bot.delete_message(f"@{settings.CHANNEL_USERNAME}", message_id)
     except aiogram.utils.exceptions.MessageToDeleteNotFound:
         await query.answer(i18n.gettext("bot.error"))
         return

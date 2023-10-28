@@ -5,11 +5,13 @@ from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from dotenv import load_dotenv
 
+from settings import settings
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).parent
 LOCALES_DIR = BASE_DIR / "locales"
-BOT_LANGUAGE = os.environ.get("BOT_LANGUAGE")
+BOT_LANGUAGE = settings.BOT_LANGUAGE
 
 i18n = I18nMiddleware("bot", LOCALES_DIR, default="en")
 

@@ -16,7 +16,7 @@ class Settings(BaseSettings):
 
     CHANNEL_USERNAME: str
     SUPPORT_USERNAME: str
-    SUPPORT_USERNAME = 'USERNAME_WITHOUT_@'
+    SUPPORT_USERNAME: str | None = None
 
     class Config:
         """Configuration for the settings."""

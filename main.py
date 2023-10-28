@@ -119,13 +119,8 @@ async def enter_price(message: aiogram.types.Message, state: FSMContext):
     )
 
 
-@dp.message_handler(
-    state=SellItem.waiting_for_photo, content_types=aiogram.types.ContentTypes.PHOTO
-)
-async def enter_photo(message: aiogram.types.Message, state: FSMContext):
-    photo = message.photo[-1]
-    await photo.download(destination_file="item_photo.jpg")
-
+async def publish_post(message: aiogram.types.Message, state: FSMContext):
+    """Publishing a post in the channel and sending a notification to the user"""
     # get data and reset state
     user_data = await state.get_data()
     await state.finish()

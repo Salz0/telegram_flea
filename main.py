@@ -5,6 +5,7 @@ from pathlib import Path
 import aiogram
 from aiogram import types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import CommandStart
@@ -21,7 +22,18 @@ compile_all_languages()
 from keyboards import start_keyboard, sell_keyboard
 
 bot = aiogram.Bot(os.environ["TELEGRAM_BOT_TOKEN"])
-storage = MemoryStorage()
+
+# Redis parameters initialisation
+redis_url = os.environ["REDIS_URL"]
+redis_port = int(os.environ["REDIS_PORT"])
+redis_db = int(os.environ["REDIS_DB"])
+redis_pool_size = int(os.environ["REDIS_POOL_SIZE"])
+redis_prefix_key = os.environ["REDIS_PREFIX_KEY"]
+
+storage = RedisStorage2(
+    redis_url, redis_port, db=redis_db, pool_size=redis_pool_size, prefix=redis_prefix_key
+)
+
 dp = aiogram.Dispatcher(bot, storage=storage)
 
 BASE_DIR = Path(__file__).parent

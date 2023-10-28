@@ -1,11 +1,9 @@
 # @Telegram Flea - Your Open-Source Flea-Market Bot for Telegram 🛒
 
 
-Telegram Flea is a open-source flea-market (Барахолка) bot built for Telegram! 
-
-This project is created to serve as a handy tool for university flea-markets, and it's designed to be scalable for use all across in Ukraine
-
-Right now there is only a most basic version of the project! See the photo-example!
+Telegram Flea is an open-source bot for Telegram designed to serve as a handy tool for flea-markets for any Community!.
+It is scalable and can be used by anyone around the globe!
+Currently, a basic version of the project is available, you can easily post your items to a dedicated Telegram-channel. Please refer to the attached photo for an example.
 
 ![image](https://github.com/Salz0/telegram_flea/assets/76848642/9466e8cd-7b95-4c01-95d1-c46598aa40f7)
 
@@ -14,16 +12,36 @@ Right now there is only a most basic version of the project! See the photo-examp
 
 ### Supported Languages and Status 🌍
 
-| Language  | Code  | Status  |
-|-----------|-------|---------|
-| English   | en    | ✅       |
-| German    | de    | ✅ |
-| Ukrainian | uk | ✅   |
+| Language   | Code | Status  |
+|------------|------|---------|
+| English    | en   | ✅       |
+| German     | de   | ✅ |
+| Ukrainian  | uk   | ✅   |
+| Indonesian | id   | ✅   |
+| Hindi      | hi   | ✅   |
+| Spanish    | es   |    |
+| French     | fr   |    |
+| Japanese   | ja   |    |
+| Chinese    | zh   |    |
+| Arabic     | ar   |    |
+| Portuguese | pt   |    |
+| Bengali    | bn   |    |
+| Punjabi    | pa   |    |
+| Italian    | it   |    |
+| Turkish    | tr   |    |
+| Dutch      | nl   |    |
+| Polish     | pl   |    |
+| Vietnamese | vi   |    |
+| Tamil      | ta   |    |
+| Telugu     | te   |    |
+| Marathi    | mr   |    |
+| Kannada    | kn   |    |
+| Malay      | ms   |    |
+| Urdu       | ur   |    |
+
 
 ### Todo's 🌟
 
-* [todo] User-friendly interface 😄
-* [todo] Adding items to the flea market Channel
 * [todo] Moderation system of items applied
 
 ### Extensible and customizable 🛠️

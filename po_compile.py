@@ -15,5 +15,9 @@ def compile_all_languages(base_locales_path="locales"):
 
 
 def compile_po_to_mo(po_path, mo_path):
+    # Remove existing .mo file if it exists
+    if os.path.exists(mo_path):
+        os.remove(mo_path)
+    # Compile new .mo file
     po = polib.pofile(po_path)
     po.save_as_mofile(mo_path)

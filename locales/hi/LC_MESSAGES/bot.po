@@ -18,57 +18,57 @@ msgstr ""
 
 #: main.py:48
 msgid "bot.start_message"
-msgstr "👋 Welcome to Telegram Flea, the open-source flea market bot!"
+msgstr "👋 टेलीग्राम फ्ली में आपका स्वागत है, यह एक ओपन सोर्स फ्ली मार्केट बॉट है!"
 
 #: main.py:55 keyboards.py:26
 msgid "bot.sell_keyboard_cancel"
-msgstr "Cancel ❌"
+msgstr "रद्द करें ❌"
 
 #: main.py:61 main.py:180
 msgid "bot.sell_keyboard_canceled"
-msgstr "Canceled ✨"
+msgstr "रद्द किया गया ✨"
 
 #: main.py:67 keyboards.py:21
 msgid "bot.start_keyboard_help"
-msgstr "Help 🆘"
+msgstr "मदद 🆘"
 
 #: main.py:72
 msgid "bot.help_message"
-msgstr "If you encounter any issues with the bot, please contact @{support_username}."
+msgstr "बॉट के साथ किसी भी समस्या के लिए @{support_username} से संपर्क करें।"
 
 #: main.py:79 keyboards.py:19
 msgid "bot.start_keyboard_sell"
-msgstr "Post Ad 📩"
+msgstr "विज्ञापन दें 📩"
 
 #: main.py:85
 msgid "bot.enter_sell_description"
-msgstr "Enter item description"
+msgstr "वस्तु का विवरण दें"
 
 #: main.py:96
 msgid "bot.enter_price"
-msgstr "Specify price or terms of exchange"
+msgstr "मूल्य या विनिमय की शर्तें बताएं"
 
 #: main.py:105
 msgid "bot.send_photo"
-msgstr "Send photo"
+msgstr "फोटो भेजें"
 
 #: main.py:126
 #, python-brace-format
 msgid "bot.item_sale{item_name}-{item_price}-{username}"
-msgstr "Listing:\n- {item_name}\n- Price: {item_price}\n- Contact: @{username}"
+msgstr "विज्ञापन:\n- {item_name}\n- मूल्य: {item_price}\n- संपर्क: @{username}"
 
 #: main.py:141
 msgid "bot.cancel_sell"
-msgstr "Delete Listing ❌"
+msgstr "विज्ञापन हटाएं ❌"
 
 #: main.py:159
 msgid "bot.thanks_sale"
-msgstr "Thank you! Your item is now listed."
+msgstr "धन्यवाद! आपका माल बेचने के लिए उपस्थित किया गया है।"
 
 #: main.py:167 main.py:173
 msgid "bot.error"
-msgstr "Error"
+msgstr "त्रुटि"
 
 #: main.py:176
 msgid "bot.deleted_successfully"
-msgstr "Listing successfully deleted ✨"
+msgstr "विज्ञापन सफलतापूर्वक हटाया गया ✨"

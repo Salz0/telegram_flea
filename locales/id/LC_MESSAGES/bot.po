@@ -18,57 +18,57 @@ msgstr ""
 
 #: main.py:48
 msgid "bot.start_message"
-msgstr "👋 Welcome to Telegram Flea, the open-source flea market bot!"
+msgstr "👋 Selamat datang di Telegram Flea, bot pasar loak sumber terbuka!"
 
 #: main.py:55 keyboards.py:26
 msgid "bot.sell_keyboard_cancel"
-msgstr "Cancel ❌"
+msgstr "Batalkan ❌"
 
 #: main.py:61 main.py:180
 msgid "bot.sell_keyboard_canceled"
-msgstr "Canceled ✨"
+msgstr "Dibatalkan ✨"
 
 #: main.py:67 keyboards.py:21
 msgid "bot.start_keyboard_help"
-msgstr "Help 🆘"
+msgstr "Bantuan 🆘"
 
 #: main.py:72
 msgid "bot.help_message"
-msgstr "If you encounter any issues with the bot, please contact @{support_username}."
+msgstr "Jika Anda mengalami kesulitan dengan bot, hubungi @{support_username}."
 
 #: main.py:79 keyboards.py:19
 msgid "bot.start_keyboard_sell"
-msgstr "Post Ad 📩"
+msgstr "Pasang Iklan 📩"
 
 #: main.py:85
 msgid "bot.enter_sell_description"
-msgstr "Enter item description"
+msgstr "Masukkan deskripsi item"
 
 #: main.py:96
 msgid "bot.enter_price"
-msgstr "Specify price or terms of exchange"
+msgstr "Tentukan harga atau syarat pertukaran"
 
 #: main.py:105
 msgid "bot.send_photo"
-msgstr "Send photo"
+msgstr "Kirim foto"
 
 #: main.py:126
 #, python-brace-format
 msgid "bot.item_sale{item_name}-{item_price}-{username}"
-msgstr "Listing:\n- {item_name}\n- Price: {item_price}\n- Contact: @{username}"
+msgstr "Iklan:\n- {item_name}\n- Harga: {item_price}\n- Kontak: @{username}"
 
 #: main.py:141
 msgid "bot.cancel_sell"
-msgstr "Delete Listing ❌"
+msgstr "Hapus Iklan ❌"
 
 #: main.py:159
 msgid "bot.thanks_sale"
-msgstr "Thank you! Your item is now listed."
+msgstr "Terima kasih! Item Anda telah dipasarkan."
 
 #: main.py:167 main.py:173
 msgid "bot.error"
-msgstr "Error"
+msgstr "Kesalahan"
 
 #: main.py:176
 msgid "bot.deleted_successfully"
-msgstr "Listing successfully deleted ✨"
+msgstr "Iklan berhasil dihapus ✨"

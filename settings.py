@@ -11,8 +11,8 @@ class Settings(BaseSettings):
 
     TELEGRAM_BOT_TOKEN: str
 
-    DATABASE_URL: PostgresDsn
-    REDIS_URL: RedisDsn
+    DATABASE_URL: PostgresDsn | None
+    REDIS_URL: RedisDsn | None
 
     CHANNEL_USERNAME: str
     SUPPORT_USERNAME: str

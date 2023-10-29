@@ -30,9 +30,13 @@ redis_db = int(os.environ["REDIS_DB"])
 redis_pool_size = int(os.environ["REDIS_POOL_SIZE"])
 redis_prefix_key = os.environ["REDIS_PREFIX_KEY"]
 
-storage = RedisStorage2(
-    redis_url, redis_port, db=redis_db, pool_size=redis_pool_size, prefix=redis_prefix_key
-) if redis_url.strip() != '' else MemoryStorage()
+storage = (
+    RedisStorage2(
+        redis_url, redis_port, db=redis_db, pool_size=redis_pool_size, prefix=redis_prefix_key
+    )
+    if redis_url.strip() != ""
+    else MemoryStorage()
+)
 
 dp = aiogram.Dispatcher(bot, storage=storage)
 

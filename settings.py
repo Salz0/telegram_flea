@@ -7,9 +7,6 @@ class Settings(BaseSettings):
 
     TELEGRAM_BOT_TOKEN: str
 
-    DATABASE_URL: PostgresDsn
-    REDIS_URL: RedisDsn
-
     class Config:
         """Configuration for the settings."""
 

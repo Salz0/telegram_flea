@@ -4,6 +4,7 @@ from pathlib import Path
 
 import aiogram
 from aiogram import types
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from aiogram.dispatcher import FSMContext
@@ -31,7 +32,7 @@ redis_prefix_key = os.environ["REDIS_PREFIX_KEY"]
 
 storage = RedisStorage2(
     redis_url, redis_port, db=redis_db, pool_size=redis_pool_size, prefix=redis_prefix_key
-)
+) if redis_url.strip() != '' else MemoryStorage()
 
 dp = aiogram.Dispatcher(bot, storage=storage)
 

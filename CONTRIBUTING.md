@@ -27,9 +27,18 @@ git switch -c <your_branch_name>
 - Add your bot to the channel and give it admin rights
 - Copy _.env.example_ and change name to _.env_, you can do like this: `cp .env.example .env`
 - Open the new file
-- Edit .env variables
-  - `TELEGRAM_BOT_TOKEN` - your bot's token. Open https://telegram.me/BotFather and follow instraction how to create a new bot. In the end you will recei
-  - `CHANNEL_USERNAME` - the channel tag to which messages will be sent. If link for your channel is https://t.me/some_name. some_name will be a CHANNEL_USERNAME
+- Edit the following environment variables in the .env file:
+  - `TELEGRAM_BOT_TOKEN`: Your bot's token. To obtain it, open [the
+    bot](https://telegram.me/BotFather) and follow the instructions on how to
+    create a new bot. In the end, you will receive a token that should be set
+    as the value for the `TELEGRAM_BOT_TOKEN` environment variable.
+  - `CHANNEL_USERNAME`: The channel name to which messages will be sent. If
+    your public channel's link is https://t.me/some_name, use "some_name" as
+    the value for CHANNEL_USERNAME.
+  - `REDIS_URL`, `REDIS_DB`, `REDIS_POOL_SIZE`, `REDIS_PREFIX_KEY`: Redis-related
+    environment variables. Only change these if you are confident in what you
+    are doing.
+  - `BOT_LANGUAGE`: The language for the bot's interface. List of available languages is updating
 
 ## Step 5: Project set-up
 
@@ -59,6 +68,44 @@ Dependencies:
 - git
 - poetry
 
+###### macOS
+
+```bash
+# Install Homebrew (if not already installed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+# Install git and python
+brew install git python
+
+# Install Poetry
+pip install poetry
+```
+
+###### Linux
+
+- Ubuntu
+
+```bash
+sudo apt update
+sudo apt install git python3 python3-pip python3-poetry
+```
+
+- Arch
+
+```bash
+sudo pacman -Syu git python python-pip python-poetry
+```
+
+###### Windows
+
+- Python: Download the installer from the official Python [website](https://www.python.org/downloads/windows/) and follow the installation steps.
+- Git: Download the installer from the official Git [website](https://git-scm.com/download/win) and follow the installation steps.
+- Poetry: Open a Command Prompt or PowerShell window and run the following command to install Poetry:
+
+```bash
+pip install poetry
+```
+
 You can check if everything installed by this command:
 
 ```bash
@@ -68,7 +115,7 @@ poetry -v && git -v && pip -v && python --version
 #### Set-up python virtual environment
 
 Create a virtual environment with poetry
-For more information see: (https://python-poetry.org/docs/basic-usage/)
+For more information visit this [website](https://python-poetry.org/docs/basic-usage/)
 
 You can run do it like this in terminal:
 
@@ -80,9 +127,8 @@ If you're using **PyCharm** or **Visual Studio Code** with the Python extension,
 
 #### Problem with redis
 
-If you don't have a redis running on you local machine you can download it and setup appropiate env variables in your _.env_ file.
-
-If you don't want to install reddis for your local dev setup, just add `MEMORY_STORAGE=""` to the .env file.
+If you want to use redis on your local dev set-up set
+`REDIS_URL=localhost` in the _.env_ file.
 
 ## Step 6: Work on the Task 👨‍💻👩‍💻
 

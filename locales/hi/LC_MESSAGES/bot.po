@@ -72,3 +72,7 @@ msgstr "त्रुटि"
 #: main.py:176
 msgid "bot.deleted_successfully"
 msgstr "विज्ञापन सफलतापूर्वक हटाया गया ✨"
+
+#: main.py:186
+msgid "bot.invalid_photo_extension"
+msgstr "Invalid photo extension"

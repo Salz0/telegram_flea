@@ -15,6 +15,7 @@ from aiogram.types.callback_query import CallbackQuery
 from dotenv import load_dotenv
 
 from po_compile import compile_all_languages
+from utils.data_validation import validate_photo_as_document
 
 load_dotenv()
 compile_all_languages()
@@ -178,6 +179,15 @@ async def publish_post(message: aiogram.types.Message, state: FSMContext):
 async def enter_photo_as_document(message: aiogram.types.Message, state: FSMContext):
     # get photo as document
     document = message.document
+
+    # validate photo
+    if validate_photo_as_document(document) is False:
+        await message.reply(
+            i18n.gettext("bot.invalid_photo_extension", locale=BOT_LANGUAGE),
+            reply_markup=sell_keyboard,
+        )
+        return
+
     await document.download(destination_file="item_photo.jpg")
 
     # publishing a post

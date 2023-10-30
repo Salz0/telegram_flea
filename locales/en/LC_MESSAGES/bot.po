@@ -72,3 +72,7 @@ msgstr "Error"
 #: main.py:176
 msgid "bot.deleted_successfully"
 msgstr "Listing successfully deleted ✨"
+
+#: main.py:186
+msgid "bot.invalid_photo_extension"
+msgstr "Invalid photo extension"

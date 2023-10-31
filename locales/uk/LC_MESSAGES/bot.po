@@ -75,4 +75,4 @@ msgstr "Оголошення успішно видалено ✨"
 
 #: main.py:186
 msgid "bot.invalid_photo_extension"
-msgstr "Invalid photo extension"
+msgstr "Недійсне розширення фотографії"

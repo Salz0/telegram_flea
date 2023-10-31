@@ -75,4 +75,4 @@ msgstr "Iklan berhasil dihapus ✨"
 
 #: main.py:186
 msgid "bot.invalid_photo_extension"
-msgstr "Invalid photo extension"
+msgstr "Ekstensi foto tidak valid"

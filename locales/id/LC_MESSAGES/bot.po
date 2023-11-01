@@ -2,12 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-
+#
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-26 12:44+0300\n"
+"POT-Creation-Date: 2023-11-01 14:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,48 +17,52 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: main.py:48
+#: main.py:48 main.py:71
 msgid "bot.start_message"
 msgstr "👋 Selamat datang di Telegram Flea, bot pasar loak sumber terbuka!"
 
-#: main.py:55 keyboards.py:26
+#: main.py:55 keyboards.py:26 keyboards.py:31 main.py:78
 msgid "bot.sell_keyboard_cancel"
 msgstr "Batalkan ❌"
 
-#: main.py:61 main.py:180
+#: main.py:61 main.py:180 main.py:84 main.py:228
 msgid "bot.sell_keyboard_canceled"
 msgstr "Dibatalkan ✨"
 
-#: main.py:67 keyboards.py:21
+#: main.py:67 keyboards.py:21 keyboards.py:26 main.py:90
 msgid "bot.start_keyboard_help"
 msgstr "Bantuan 🆘"
 
-#: main.py:72
+#: main.py:72 main.py:95
 msgid "bot.help_message"
 msgstr "Jika Anda mengalami kesulitan dengan bot, hubungi @{support_username}."
 
-#: main.py:79 keyboards.py:19
+#: main.py:79 keyboards.py:19 keyboards.py:24 main.py:102
 msgid "bot.start_keyboard_sell"
 msgstr "Pasang Iklan 📩"
 
-#: main.py:85
+#: main.py:85 main.py:108
 msgid "bot.enter_sell_description"
 msgstr "Masukkan deskripsi item"
 
-#: main.py:96
+#: main.py:96 main.py:119
 msgid "bot.enter_price"
 msgstr "Tentukan harga atau syarat pertukaran"
 
-#: main.py:105
+#: main.py:105 main.py:128
 msgid "bot.send_photo"
 msgstr "Kirim foto"
 
-#: main.py:126
+#: main.py:126 main.py:148
 #, python-brace-format
 msgid "bot.item_sale{item_name}-{item_price}-{username}"
-msgstr "Iklan:\n- {item_name}\n- Harga: {item_price}\n- Kontak: @{username}"
+msgstr ""
+"Iklan:\n"
+"- {item_name}\n"
+"- Harga: {item_price}\n"
+"- Kontak: @{username}"
 
-#: main.py:141
+#: main.py:141 keyboards.py:59
 msgid "bot.cancel_sell"
 msgstr "Hapus Iklan ❌"
 
@@ -65,14 +70,44 @@ msgstr "Hapus Iklan ❌"
 msgid "bot.thanks_sale"
 msgstr "Terima kasih! Item Anda telah dipasarkan."
 
-#: main.py:167 main.py:173
+#: main.py:167 main.py:173 main.py:208 main.py:214 main.py:236 main.py:291
 msgid "bot.error"
 msgstr "Kesalahan"
 
-#: main.py:176
+#: main.py:176 main.py:224
 msgid "bot.deleted_successfully"
 msgstr "Iklan berhasil dihapus ✨"
 
-#: main.py:186
+#: main.py:186 main.py:180
 msgid "bot.invalid_photo_extension"
 msgstr "Ekstensi foto tidak valid"
+
+#: keyboards.py:41
+msgid "bot.moderator_approval"
+msgstr ""
+
+#: keyboards.py:47
+msgid "bot.moderator_declination"
+msgstr ""
+
+#: main.py:166
+msgid "bot.sent_to_moderation"
+msgstr ""
+
+#: main.py:243
+msgid "bot.approved_successfully"
+msgstr ""
+
+#: main.py:261
+#, python-brace-format
+msgid "bot.listing_approved{listing}"
+msgstr ""
+
+#: main.py:274
+msgid "bot.declined_successfully"
+msgstr ""
+
+#: main.py:279
+#, python-brace-format
+msgid "bot.listing_declined{listing}"
+msgstr ""

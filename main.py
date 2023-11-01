@@ -163,7 +163,7 @@ async def publish_post(message: aiogram.types.Message, state: FSMContext):
     )
 
     await message.reply(
-        i18n.gettext("bot.thanks_sale", locale=BOT_LANGUAGE), reply_markup=start_keyboard
+        i18n.gettext("bot.sent_to_moderation", locale=BOT_LANGUAGE), reply_markup=start_keyboard
     )
 
 

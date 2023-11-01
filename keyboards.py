@@ -34,7 +34,7 @@ sell_keyboard.add(cancel_button)
 empty_inline_keyboard = InlineKeyboardMarkup()
 
 
-async def moderator_keyboard(userid):
+def moderator_keyboard(userid):
     moderator_inline_keyboard = InlineKeyboardMarkup()
     moderator_inline_keyboard.add(
         InlineKeyboardButton(
@@ -51,7 +51,7 @@ async def moderator_keyboard(userid):
     return moderator_inline_keyboard
 
 
-async def cancel_listing_keyboard(channel_message_id):
+def cancel_listing_keyboard(channel_message_id):
     # Cancel listing markup for seller
     reply_markup = InlineKeyboardMarkup()
     reply_markup.add(

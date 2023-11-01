@@ -142,7 +142,7 @@ async def publish_post(message: aiogram.types.Message, state: FSMContext):
     userid = message.from_user.id
 
     # Reply keyboard for Moderator
-    moderator_inline_keyboard = await moderator_keyboard(userid)
+    moderator_inline_keyboard = moderator_keyboard(userid)
 
     caption = i18n.gettext(
         "bot.item_sale{item_name}-{item_price}-{username}", locale=BOT_LANGUAGE
@@ -252,7 +252,7 @@ async def moderator_callback(query: CallbackQuery):
                 caption=query.message.caption,
             )
 
-            reply_markup = await cancel_listing_keyboard(data.message_id)
+            reply_markup = cancel_listing_keyboard(data.message_id)
 
             # Sending item to the user
             await bot.send_photo(

@@ -10,11 +10,11 @@ from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import CommandStart
 from aiogram.dispatcher.filters.state import StatesGroup, State
-from aiogram.types.inline_keyboard import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.types.callback_query import CallbackQuery
 from dotenv import load_dotenv
 
 from po_compile import compile_all_languages
+from utils.data_validation import validate_photo_as_document
 
 from utils import tortoise_orm
 from models import User
@@ -23,7 +23,13 @@ from utils.loguru_logging import logger
 load_dotenv()
 compile_all_languages()
 
-from keyboards import start_keyboard, sell_keyboard
+from keyboards import (
+    start_keyboard,
+    sell_keyboard,
+    cancel_listing_keyboard,
+    moderator_keyboard,
+    empty_inline_keyboard,
+)
 
 bot = aiogram.Bot(os.environ["TELEGRAM_BOT_TOKEN"])
 
@@ -34,8 +40,12 @@ redis_db = int(os.environ["REDIS_DB"])
 redis_pool_size = int(os.environ["REDIS_POOL_SIZE"])
 redis_prefix_key = os.environ["REDIS_PREFIX_KEY"]
 
-storage = RedisStorage2(
-    redis_url, redis_port, db=redis_db, pool_size=redis_pool_size, prefix=redis_prefix_key
+storage = (
+    RedisStorage2(
+        redis_url, redis_port, db=redis_db, pool_size=redis_pool_size, prefix=redis_prefix_key
+    )
+    if redis_url.strip() != ""
+    else MemoryStorage()
 )
 
 dp = aiogram.Dispatcher(bot, storage=storage)
@@ -133,6 +143,10 @@ async def publish_post(message: aiogram.types.Message, state: FSMContext):
     item_name = user_data.get("name")
     item_price = user_data.get("price")
     username = message.from_user.username or message.from_user.id
+    userid = message.from_user.id
+
+    # Reply keyboard for Moderator
+    moderator_inline_keyboard = moderator_keyboard(userid)
 
     caption = i18n.gettext(
         "bot.item_sale{item_name}-{item_price}-{username}", locale=BOT_LANGUAGE
@@ -142,33 +156,18 @@ async def publish_post(message: aiogram.types.Message, state: FSMContext):
         username=username,
     )
 
+    # Send listing to moderation
     data = await bot.send_photo(
-        "@" + os.environ["CHANNEL_USERNAME"],
-        aiogram.types.InputFile("item_photo.jpg"),
+        chat_id=int(os.environ["MODERATOR_CHAT_ID"]),
+        photo=aiogram.types.InputFile("item_photo.jpg"),
         caption=caption,
     )
-    reply_markup = InlineKeyboardMarkup()
-    reply_markup.add(
-        InlineKeyboardButton(
-            i18n.gettext("bot.cancel_sell", locale=BOT_LANGUAGE),
-            callback_data=f"cancel {data.message_id}",
-        )
-    )
-    # Sending photo to the user
-    data_user = await bot.send_photo(
-        chat_id=message.from_user.id,
-        photo=types.InputFile("item_photo.jpg"),
-        caption=caption,
+    await bot.edit_message_reply_markup(
+        chat_id=data.chat.id, message_id=data.message_id, reply_markup=moderator_inline_keyboard
     )
 
-    # Edit the message to the user to add the reply markup
-    await bot.edit_message_reply_markup(
-        chat_id=message.from_user.id,
-        message_id=data_user.message_id,
-        reply_markup=reply_markup,
-    )
     await message.reply(
-        i18n.gettext("bot.thanks_sale", locale=BOT_LANGUAGE), reply_markup=start_keyboard
+        i18n.gettext("bot.sent_to_moderation", locale=BOT_LANGUAGE), reply_markup=start_keyboard
     )
 
 
@@ -178,6 +177,15 @@ async def publish_post(message: aiogram.types.Message, state: FSMContext):
 async def enter_photo_as_document(message: aiogram.types.Message, state: FSMContext):
     # get photo as document
     document = message.document
+
+    # validate photo
+    if validate_photo_as_document(document) is False:
+        await message.reply(
+            i18n.gettext("bot.invalid_photo_extension", locale=BOT_LANGUAGE),
+            reply_markup=sell_keyboard,
+        )
+        return
+
     await document.download(destination_file="item_photo.jpg")
 
     # publishing a post
@@ -197,7 +205,7 @@ async def enter_photo(message: aiogram.types.Message, state: FSMContext):
     await publish_post(message, state)
 
 
-@dp.callback_query_handler()
+@dp.callback_query_handler(lambda query: query.data[:7] == "cancel ")
 async def cancel_sell(query: CallbackQuery):
     data = query.data
     if not data or len(data.split("cancel ")) != 2:
@@ -209,6 +217,13 @@ async def cancel_sell(query: CallbackQuery):
     except aiogram.utils.exceptions.MessageToDeleteNotFound:
         await query.answer(i18n.gettext("bot.error"))
         return
+
+    await bot.edit_message_reply_markup(
+        chat_id=query.message.chat.id,
+        message_id=query.message.message_id,
+        reply_markup=None,
+    )
+
     # Answer the query first
     await query.answer(i18n.gettext("bot.deleted_successfully"))
     # Then send the message
@@ -216,6 +231,68 @@ async def cancel_sell(query: CallbackQuery):
         chat_id=query.from_user.id,
         text=i18n.gettext("bot.sell_keyboard_canceled", locale=BOT_LANGUAGE),
     )
+
+
+@dp.callback_query_handler(lambda query: query.data[:10] == "moderator:")
+async def moderator_callback(query: CallbackQuery):
+    callback_data = query.data
+    if len(callback_data.split(" ")) != 2:
+        await query.answer(i18n.gettext("bot.error"))
+        return
+    moderator_response, seller_userid = callback_data.split(" ")
+    seller_userid = int(seller_userid)
+
+    match moderator_response:
+        case "moderator:approved":
+            await query.answer(i18n.gettext("bot.approved_successfully"))
+            # Get item photo
+            photo = query.message.photo[-1]
+            await photo.download(destination_file="item_photo.jpg")
+
+            # Send item to channel
+            data = await bot.send_photo(
+                "@" + os.environ["CHANNEL_USERNAME"],
+                aiogram.types.InputFile("item_photo.jpg"),
+                caption=query.message.caption,
+            )
+
+            reply_markup = cancel_listing_keyboard(data.message_id)
+
+            # Sending item to the user
+            await bot.send_photo(
+                chat_id=seller_userid,
+                photo=types.InputFile("item_photo.jpg"),
+                caption=i18n.gettext("bot.listing_approved{listing}", locale=BOT_LANGUAGE).format(
+                    listing=query.message.caption
+                ),
+                reply_markup=reply_markup,
+            )
+
+            # Remove the reply keyboard for moderator
+            await bot.edit_message_reply_markup(
+                chat_id=query.message.chat.id,
+                message_id=query.message.message_id,
+                reply_markup=empty_inline_keyboard,
+            )
+        case "moderator:declined":
+            await query.answer(i18n.gettext("bot.declined_successfully"))
+            # Notify user that listing was declined
+            await bot.send_photo(
+                chat_id=seller_userid,
+                photo=types.InputFile("item_photo.jpg"),
+                caption=i18n.gettext("bot.listing_declined{listing}", locale=BOT_LANGUAGE).format(
+                    listing=query.message.caption
+                ),
+            )
+            # Remove the reply keyboard for moderator
+            await bot.edit_message_reply_markup(
+                chat_id=query.message.chat.id,
+                message_id=query.message.message_id,
+                reply_markup=empty_inline_keyboard,
+            )
+        case _:
+            print(f"'{moderator_response}'")
+            await query.answer(i18n.gettext("bot.error"))
 
 
 async def on_startup(*_, **__):

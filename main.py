@@ -16,6 +16,10 @@ from dotenv import load_dotenv
 from po_compile import compile_all_languages
 from utils.data_validation import validate_photo_as_document
 
+from utils import tortoise_orm
+from models import User
+from utils.loguru_logging import logger
+
 load_dotenv()
 compile_all_languages()
 
@@ -291,5 +295,27 @@ async def moderator_callback(query: CallbackQuery):
             await query.answer(i18n.gettext("bot.error"))
 
 
+async def on_startup(*_, **__):
+    me = await bot.get_me()
+    logger.info(f"Starting up the https://t.me/{me.username} bot...")
+
+    logger.info("Initializing the database connection...")
+    await tortoise_orm.init()
+
+    me_data = me.to_python()
+    await User.get_or_create(id=me_data.pop("id"), defaults=me_data)
+
+    logger.success("Bot started")
+
+
+async def on_shutdown(*_, **__):
+    logger.info("Shutting down...")
+
+    logger.info("Closing the database connection...")
+    await tortoise_orm.shutdown()
+
+    logger.success("Bot shutdown")
+
+
 if __name__ == "__main__":
-    aiogram.executor.start_polling(dp, on_startup=print("Bot started"))
+    aiogram.executor.start_polling(dp, on_startup=on_startup, on_shutdown=on_shutdown)

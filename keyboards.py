@@ -34,30 +34,30 @@ sell_keyboard.add(cancel_button)
 empty_inline_keyboard = InlineKeyboardMarkup()
 
 
-def moderator_keyboard(userid):
+def moderator_keyboard(userid, msg_id):
     moderator_inline_keyboard = InlineKeyboardMarkup()
     moderator_inline_keyboard.add(
         InlineKeyboardButton(
             i18n.gettext("bot.moderator_approval", locale=BOT_LANGUAGE),
-            callback_data=f"moderator:approved {userid}",
+            callback_data=f"moderator:approved {userid}.{msg_id}",
         )
     )
     moderator_inline_keyboard.add(
         InlineKeyboardButton(
             i18n.gettext("bot.moderator_declination", locale=BOT_LANGUAGE),
-            callback_data=f"moderator:declined {userid}",
+            callback_data=f"moderator:declined {userid}.{msg_id}",
         )
     )
     return moderator_inline_keyboard
 
 
-def cancel_listing_keyboard(channel_message_id):
+def cancel_listing_keyboard(channel_message_id, msg_id):
     # Cancel listing markup for seller
     reply_markup = InlineKeyboardMarkup()
     reply_markup.add(
         InlineKeyboardButton(
             i18n.gettext("bot.cancel_sell", locale=BOT_LANGUAGE),
-            callback_data=f"cancel {channel_message_id}",
+            callback_data=f"cancel {channel_message_id}.{msg_id}",
         )
     )
     return reply_markup

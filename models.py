@@ -66,6 +66,7 @@ class Message(BaseModel):
     from_user: fields.ForeignKeyRelation[User] = fields.ForeignKeyField(
         "bot.User", related_name="messages"
     )
+    id = fields.IntField(pk=True, generated=True)
 
     # In Telegram, `message_id` is unique only **within a chat**.
     message_id = fields.BigIntField()  # for the sake of safety, this is a `BigIntField`
@@ -82,6 +83,8 @@ class Message(BaseModel):
 
     date = fields.DatetimeField()
     is_handled = fields.BooleanField(default=False)
+    content = fields.BinaryField(null=True)
+    status = fields.CharField(max_length=32, null=True)
 
     complete_message_json = fields.JSONField(null=True)
 

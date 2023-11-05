@@ -84,30 +84,30 @@ msgstr "Недійсне розширення фотографії"
 
 #: keyboards.py:41
 msgid "bot.moderator_approval"
-msgstr ""
+msgstr "Підтвердити ✅"
 
 #: keyboards.py:47
 msgid "bot.moderator_declination"
-msgstr ""
+msgstr "Відхилити ❌"
 
 #: main.py:166
 msgid "bot.sent_to_moderation"
-msgstr ""
+msgstr "Супер! Оголошення відправлено на модерацію, очікуй на відповідь згодом"
 
 #: main.py:243
 msgid "bot.approved_successfully"
-msgstr ""
+msgstr "Оголошення схвалено ✨\n\n"
 
 #: main.py:261
 #, python-brace-format
 msgid "bot.listing_approved{listing}"
-msgstr ""
+msgstr "Вітаю! Оголошення схвалено ✨\n\n{listing}"
 
 #: main.py:274
 msgid "bot.declined_successfully"
-msgstr ""
+msgstr "На жаль, оголошення відхилено ;( спробуй іще раз"
 
 #: main.py:279
 #, python-brace-format
 msgid "bot.listing_declined{listing}"
-msgstr ""
+msgstr "На жаль, оголошення відхилено ;( спробуй іще раз\n\n{listing}"

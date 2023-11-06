@@ -28,12 +28,9 @@ def analyse_user_language():
 
     # Create a bar chart
     plt.bar(scores, counts)
-    plt.xlabel('Lang')
-    plt.ylabel('Count')
-    plt.title('User Score Distribution')
+    plt.xlabel("Lang")
+    plt.ylabel("Count")
+    plt.title("User Score Distribution")
 
     # Display the chart
     plt.show()
-
-
-

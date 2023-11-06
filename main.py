@@ -38,9 +38,7 @@ redis_url = os.environ["REDIS_URL"]
 redis_port = int(os.environ["REDIS_PORT"])
 
 storage = (
-    RedisStorage2(
-        redis_url, redis_port, db=5, prefix="aiogram:example_bot", encoding="utf8"
-    )
+    RedisStorage2(redis_url, redis_port, db=5, prefix="aiogram:example_bot", encoding="utf8")
     if redis_url.strip() != ""
     else MemoryStorage()
 )

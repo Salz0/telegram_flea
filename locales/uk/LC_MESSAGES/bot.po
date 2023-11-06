@@ -43,7 +43,7 @@ msgstr "Виставити оголошення 📩"
 
 #: main.py:85 main.py:108
 msgid "bot.enter_sell_description"
-msgstr "Введи назву товару"
+msgstr "Введи опис або назву предмету"
 
 #: main.py:96 main.py:119
 msgid "bot.enter_price"

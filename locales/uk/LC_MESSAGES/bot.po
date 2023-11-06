@@ -57,10 +57,9 @@ msgstr "Відправ фото"
 #, python-brace-format
 msgid "bot.item_sale{item_name}-{item_price}-{username}"
 msgstr ""
-"Оголошення:\n"
-"- {item_name}\n"
-"- Ціна: {item_price}\n"
-"- Контакт: @{username}"
+"{item_name}\n"
+"Ціна: {item_price}\n"
+"Контакт: @{username}"
 
 #: main.py:141 keyboards.py:59
 msgid "bot.cancel_sell"

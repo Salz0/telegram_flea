@@ -4,8 +4,6 @@ from pathlib import Path
 
 import aiogram
 from aiogram import types
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import CommandStart
@@ -321,8 +319,6 @@ async def moderator_callback(query: CallbackQuery):
             status = "moderation error"
             logger.info(f"'{moderator_response=}'")
             await query.answer(i18n.gettext("bot.error"))
-    logger.warning(f"{query.message.message_id=}")
-    logger.warning(f"{query.from_user.id=}")
     await Message.filter(message_id=msg_id, from_user_id=query.from_user.id).update(status=status)
 
 

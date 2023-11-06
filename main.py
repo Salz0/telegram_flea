@@ -36,13 +36,10 @@ bot = aiogram.Bot(os.environ["TELEGRAM_BOT_TOKEN"])
 # Redis parameters initialisation
 redis_url = os.environ["REDIS_URL"]
 redis_port = int(os.environ["REDIS_PORT"])
-redis_db = int(os.environ["REDIS_DB"])
-redis_pool_size = int(os.environ["REDIS_POOL_SIZE"])
-redis_prefix_key = os.environ["REDIS_PREFIX_KEY"]
 
 storage = (
     RedisStorage2(
-        redis_url, redis_port, db=redis_db, pool_size=redis_pool_size, prefix=redis_prefix_key
+        redis_url, redis_port, db=5, prefix="aiogram:example_bot", encoding="utf8"
     )
     if redis_url.strip() != ""
     else MemoryStorage()

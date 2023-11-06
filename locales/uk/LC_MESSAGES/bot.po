@@ -19,7 +19,7 @@ msgstr ""
 
 #: main.py:48 main.py:71
 msgid "bot.start_message"
-msgstr "👋 Ласкаво просимо до Telegram Flea..."
+msgstr "Вітаю!)\n\n Це місце для обміну та продажу речей у спільноті УКУ, все просто, спробуй :)"
 
 #: main.py:55 keyboards.py:26 keyboards.py:31 main.py:78
 msgid "bot.sell_keyboard_cancel"
@@ -35,7 +35,7 @@ msgstr "Допомога 🆘"
 
 #: main.py:72 main.py:95
 msgid "bot.help_message"
-msgstr "Якщо виникли труднощі з використання бота, напиши @{support_username}."
+msgstr "Якщо виникли труднощі з використанням бота, напиши @{support_username}."
 
 #: main.py:79 keyboards.py:19 keyboards.py:24 main.py:102
 msgid "bot.start_keyboard_sell"
@@ -68,7 +68,7 @@ msgstr "Видалити оголошення ❌"
 
 #: main.py:159
 msgid "bot.thanks_sale"
-msgstr "Дякуємо! Ваш товар виставлено на продаж."
+msgstr "Опубліковано 🔥"
 
 #: main.py:167 main.py:173 main.py:208 main.py:214 main.py:236 main.py:291
 msgid "bot.error"

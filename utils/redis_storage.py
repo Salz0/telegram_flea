@@ -3,14 +3,17 @@ The module that provides the `RedisStorage2` storage for the bot.
 
 It uses the `REDIS_URL` environment variable to connect to the Redis server.
 """
+import os
 import typing
 
 import dj_redis_url
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
+from dotenv import load_dotenv
 
 from settings import settings
+load_dotenv()
 
-redis_config: dict = dj_redis_url.config(default=settings.REDIS_URL)
+redis_config: dict = dj_redis_url.config(default=os.environ["REDIS_URL"])
 
 
 def parse_config(config_to_parse: dict[str, typing.Any]) -> dict[str, typing.Any]:

@@ -19,6 +19,7 @@ from utils import tortoise_orm
 from utils.data_validation import validate_photo_as_document
 from utils.generalization import create_message_instance
 from utils.loguru_logging import logger
+from utils.redis_storage import redis_storage
 
 load_dotenv()
 compile_all_languages()
@@ -33,17 +34,7 @@ from keyboards import (
 
 bot = aiogram.Bot(os.environ["TELEGRAM_BOT_TOKEN"])
 
-# Redis parameters initialisation
-redis_url = os.environ["REDIS_URL"]
-redis_port = int(os.environ["REDIS_PORT"])
-
-storage = (
-    RedisStorage2(redis_url, redis_port, db=5, prefix="aiogram:example_bot", encoding="utf8")
-    if redis_url.strip() != ""
-    else MemoryStorage()
-)
-
-dp = aiogram.Dispatcher(bot, storage=storage)
+dp = aiogram.Dispatcher(bot, storage=redis_storage)
 
 BASE_DIR = Path(__file__).parent
 LOCALES_DIR = BASE_DIR / "locales"
@@ -59,7 +50,7 @@ if BOT_LANGUAGE not in i18n.locales:
 
 # Define states
 class SellItem(StatesGroup):
-    waiting_for_description = State()
+    waiting_description = State()
     waiting_for_price = State()
     waiting_for_photo = State()
 
@@ -120,8 +111,8 @@ async def help_command(message: aiogram.types.Message):
     state="*",
 )
 async def enter_sell(message: aiogram.types.Message):
+    await SellItem.waiting_description.set(),
     await gather(
-        SellItem.waiting_for_description.set(),
         create_message_instance(message),
         message.reply(
             i18n.gettext("bot.enter_sell_description", locale=BOT_LANGUAGE),
@@ -131,7 +122,7 @@ async def enter_sell(message: aiogram.types.Message):
 
 
 @dp.message_handler(
-    state=SellItem.waiting_for_description, content_types=aiogram.types.ContentTypes.TEXT
+    state=SellItem.waiting_description, content_types=aiogram.types.ContentTypes.TEXT
 )
 async def enter_name(message: aiogram.types.Message, state: FSMContext):
     await gather(

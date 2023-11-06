@@ -4,6 +4,7 @@ from pathlib import Path
 
 import aiogram
 from aiogram import types
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import CommandStart
@@ -32,7 +33,7 @@ from keyboards import (
 
 bot = aiogram.Bot(os.environ["TELEGRAM_BOT_TOKEN"])
 
-dp = aiogram.Dispatcher(bot, storage=redis_storage)
+dp = aiogram.Dispatcher(bot, storage=MemoryStorage())
 
 BASE_DIR = Path(__file__).parent
 LOCALES_DIR = BASE_DIR / "locales"

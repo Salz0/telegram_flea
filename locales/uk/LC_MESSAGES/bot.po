@@ -19,7 +19,7 @@ msgstr ""
 
 #: main.py:48 main.py:71
 msgid "bot.start_message"
-msgstr "👋 Привіт\n\n 🤖 Концепт простий: це твоє місце для обміну та продажу речей у спільноті УКУ\nСпробуй виставити своє перше оголошення через клавіатуру нижче :)"
+msgstr "👋 Ласкаво просимо до Telegram Flea..."
 
 #: main.py:55 keyboards.py:26 keyboards.py:31 main.py:78
 msgid "bot.sell_keyboard_cancel"
@@ -35,7 +35,7 @@ msgstr "Допомога 🆘"
 
 #: main.py:72 main.py:95
 msgid "bot.help_message"
-msgstr "Якщо виникли труднощі з використанням бота, напиши @{support_username}."
+msgstr "Якщо виникли труднощі з використання бота, напиши @{support_username}."
 
 #: main.py:79 keyboards.py:19 keyboards.py:24 main.py:102
 msgid "bot.start_keyboard_sell"
@@ -43,7 +43,7 @@ msgstr "Виставити оголошення 📩"
 
 #: main.py:85 main.py:108
 msgid "bot.enter_sell_description"
-msgstr "Введи опис або назву предмету"
+msgstr "Введи назву товару"
 
 #: main.py:96 main.py:119
 msgid "bot.enter_price"
@@ -57,9 +57,10 @@ msgstr "Відправ фото"
 #, python-brace-format
 msgid "bot.item_sale{item_name}-{item_price}-{username}"
 msgstr ""
-"{item_name}\n"
-"Ціна: {item_price}\n"
-"Контакт: @{username}"
+"Оголошення:\n"
+"- {item_name}\n"
+"- Ціна: {item_price}\n"
+"- Контакт: @{username}"
 
 #: main.py:141 keyboards.py:59
 msgid "bot.cancel_sell"
@@ -67,7 +68,7 @@ msgstr "Видалити оголошення ❌"
 
 #: main.py:159
 msgid "bot.thanks_sale"
-msgstr "Опубліковано 🔥"
+msgstr "Дякуємо! Ваш товар виставлено на продаж."
 
 #: main.py:167 main.py:173 main.py:208 main.py:214 main.py:236 main.py:291
 msgid "bot.error"
@@ -91,7 +92,7 @@ msgstr "Відхилити ❌"
 
 #: main.py:166
 msgid "bot.sent_to_moderation"
-msgstr "🔥 Супер! Оголошення відправлено на модерацію, очікуй на відповідь згодом"
+msgstr "Супер! Оголошення відправлено на модерацію, очікуй на відповідь згодом"
 
 #: main.py:243
 msgid "bot.approved_successfully"

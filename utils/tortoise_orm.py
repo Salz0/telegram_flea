@@ -45,12 +45,16 @@ class Model(tortoise.Model, metaclass=ModelMeta):
 
 def get_tortoise_config():
     """Get the configuration for the `tortoise-orm`."""
-    ctx = ssl.create_default_context(cafile="")
-    ctx.check_hostname = False
-    ctx.verify_mode = ssl.CERT_NONE
 
-    db = tortoise.expand_db_url(os.environ.get("DATABASE_URL"))
-    db["credentials"]["ssl"] = ctx
+    pg_user = os.getenv('POSTGRES_USER')
+    pg_pass = os.getenv('POSTGRES_PASSWORD')
+    pg_host = os.getenv('POSTGRES_HOST')
+    pg_port = 5432
+    pg_db = os.getenv('POSTGRES_DB')
+    DATABASE_URL = f"postgres://{pg_user}:{pg_pass}@{pg_host}:{pg_port}/{pg_db}"
+
+    db = tortoise.expand_db_url(DATABASE_URL)
+    db["credentials"]["ssl"] = False
 
     tortoise_config = {
         "connections": {"default": db},

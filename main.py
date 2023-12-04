@@ -326,7 +326,7 @@ async def moderator_callback(query: CallbackQuery):
 async def on_startup(*_, **__):
     me = await bot.get_me()
     logger.info(f"Starting up the https://t.me/{me.username} bot...")
-    if os.environ.get("DATABASE_URL") != "":
+    if os.environ.get("POSTGRES_USER") != "":
         logger.info("Initializing the database connection...")
         await tortoise_orm.init()
         me_data = me.to_python()
@@ -339,7 +339,7 @@ async def on_startup(*_, **__):
 async def on_shutdown(*_, **__):
     logger.info("Shutting down...")
 
-    if os.environ.get("DATABASE_URL") != "":
+    if os.environ.get("POSTGRES_USER") != "":
         logger.info("Closing the database connection...")
         await tortoise_orm.shutdown()
 
